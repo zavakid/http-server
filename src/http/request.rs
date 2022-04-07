@@ -10,23 +10,17 @@ use crate::http::ParseError::{InvalidEncoding, InvalidMethod, InvalidProtocol, I
 
 use super::method::Method;
 
-pub struct Request {
-    path: String,
-    query_string: Option<String>,
+pub struct Request<'buf> {
+    path: &'buf str,
+    query_string: Option<&'buf str>,
     method: Method,
 }
 
-impl Request {
-    fn from_byte_array(buf: &[u8]) -> Result<Self, String> {
-        todo!()
-    }
-}
-
-impl TryFrom<&[u8]> for Request {
+impl<'buf> TryFrom<&'buf[u8]> for Request<'buf> {
     type Error = ParseError;
 
     //e.g. GET /search?name=abc&sort=1 HTTP/1.1\r\n..HEADERS...
-    fn try_from(buf: &[u8]) -> Result<Self, Self::Error> {
+    fn try_from(buf: &'buf[u8]) -> Result<Request<'buf>, Self::Error> {
         let request = str::from_utf8(buf)?;
 
         let (method, request) = get_next_word(request).ok_or(InvalidRequest)?;
@@ -41,12 +35,12 @@ impl TryFrom<&[u8]> for Request {
 
         let mut query_string = None;
         if let Some(i) = path.find('?') {
-            query_string = Some(path[i + 1..].to_string());
+            query_string = Some(&path[i + 1..]);
             path = &path[..i];
         }
 
         Ok(Self {
-            path: path.to_string(),
+            path,
             query_string ,
             method,
         })
