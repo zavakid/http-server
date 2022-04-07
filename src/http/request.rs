@@ -11,6 +11,7 @@ use crate::http::ParseError::{InvalidEncoding, InvalidMethod, InvalidProtocol, I
 
 use super::method::Method;
 
+#[derive(Debug)]
 pub struct Request<'buf> {
     path: &'buf str,
     query_string: Option<QueryString<'buf>>,
