@@ -7,6 +7,7 @@ mod website_handler;
 use server::Server;
 use website_handler::WebsiteHandler;
 use std::env;
+use std::sync::Arc;
 
 fn main() {
     let default_path = format!("{}/public", env!("CARGO_MANIFEST_DIR"));
@@ -14,5 +15,5 @@ fn main() {
     println!("public path: {}", public_path);
 
     let server = Server::new("127.0.0.1:8080".to_string());
-    server.run(WebsiteHandler::new(public_path));
+    server.run(Arc::new(WebsiteHandler::new(public_path)));
 }
