@@ -1,13 +1,14 @@
 #![allow(dead_code)]
 
-mod server;
-mod http;
-mod website_handler;
+use std::env;
+use std::sync::Arc;
 
 use server::Server;
 use website_handler::WebsiteHandler;
-use std::env;
-use std::sync::Arc;
+
+mod http;
+mod server;
+mod website_handler;
 
 fn main() {
     let default_path = format!("{}/public", env!("CARGO_MANIFEST_DIR"));

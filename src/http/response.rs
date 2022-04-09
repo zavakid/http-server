@@ -19,10 +19,12 @@ impl Response {
             None => "",
         };
 
-        write!(stream, "HTTP/1.1 {} {}\r\n\r\n{}",
-               self.status_code,
-               self.status_code.reason_phrase(),
-               body,
+        write!(
+            stream,
+            "HTTP/1.1 {} {}\r\n\r\n{}",
+            self.status_code,
+            self.status_code.reason_phrase(),
+            body,
         )
     }
 }

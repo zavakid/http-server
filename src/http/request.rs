@@ -1,10 +1,10 @@
+use super::QueryString;
 use std::convert::TryFrom;
 use std::error::Error;
-use std::fmt::{Debug, Display, Formatter};
 use std::fmt::Result as FmtResult;
+use std::fmt::{Debug, Display, Formatter};
 use std::str;
 use std::str::Utf8Error;
-use super::QueryString;
 
 use crate::http::method::MethodError;
 use crate::http::ParseError::{InvalidEncoding, InvalidMethod, InvalidProtocol, InvalidRequest};
@@ -32,11 +32,11 @@ impl<'buf> Request<'buf> {
     }
 }
 
-impl<'buf> TryFrom<&'buf[u8]> for Request<'buf> {
+impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
     type Error = ParseError;
 
     //e.g. GET /search?name=abc&sort=1 HTTP/1.1\r\n..HEADERS...
-    fn try_from(buf: &'buf[u8]) -> Result<Request<'buf>, Self::Error> {
+    fn try_from(buf: &'buf [u8]) -> Result<Request<'buf>, Self::Error> {
         let request = str::from_utf8(buf)?;
 
         let (method, request) = get_next_word(request).ok_or(InvalidRequest)?;
@@ -57,7 +57,7 @@ impl<'buf> TryFrom<&'buf[u8]> for Request<'buf> {
 
         Ok(Self {
             path,
-            query_string ,
+            query_string,
             method,
         })
     }
