@@ -9,7 +9,7 @@ pub trait Handler: Send + Sync {
     fn handle_request(&self, request: &Request) -> Response;
 
     fn handle_bad_request(&self, e: &ParseError) -> Response {
-        println!("Failed to parse request: {}", e);
+        log::warn!("Failed to parse request: {}", e);
         Response::new(StatusCode::BadRequest, None)
     }
 }
@@ -24,7 +24,7 @@ impl Server {
     }
 
     pub fn run(self, handler: Arc<dyn Handler>) {
-        println!("listening to {}", self.addr);
+        log::info!("listening to {}", self.addr);
 
         let listener = TcpListener::bind(&self.addr).unwrap();
 
@@ -36,7 +36,7 @@ impl Server {
                         let mut buffer = [0; 1024];
                         match stream.read(&mut buffer) {
                             Ok(_) => {
-                                println!(
+                                log::info!(
                                     "Received a request: {}",
                                     String::from_utf8_lossy(&buffer)
                                 );
@@ -47,14 +47,14 @@ impl Server {
                                 };
 
                                 if let Err(e) = response.send(&mut stream) {
-                                    println!("Failed to send response: {}", e);
+                                    log::error!("Failed to send response: {}", e);
                                 }
                             }
-                            Err(e) => println!("Failed to read from connection: {}", e),
+                            Err(e) => log::error!("Failed to read from connection: {}", e),
                         }
                     });
                 }
-                Err(e) => println!("Failed to establish a connection: {}", e),
+                Err(e) => log::error!("Failed to establish a connection: {}", e),
             }
         }
     }
