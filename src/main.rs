@@ -4,12 +4,11 @@ use std::env;
 use std::sync::Arc;
 
 use server::Server;
-use website_handler::WebsiteHandler;
+use handler::website_handler::WebsiteHandler;
 
 mod protocol;
 mod server;
 mod handler;
-mod website_handler;
 
 fn main() {
     env_logger::init();
