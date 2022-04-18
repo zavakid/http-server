@@ -1,14 +1,22 @@
-use crate::protocol::{Method, Request, Response, StatusCode};
+use std::env;
 use std::fs;
 
 use crate::handler::Handler;
+use crate::protocol::{Method, Request, Response, StatusCode};
 
 pub struct WebsiteHandler {
     public_path: String,
 }
 
 impl WebsiteHandler {
-    pub fn new(public_path: String) -> Self {
+    pub fn new() -> Self {
+        let default_path = format!("{}/public", env!("CARGO_MANIFEST_DIR"));
+        let public_path = env::var("PUBLIC_PATH").unwrap_or(default_path);
+        log::info!("public path: {}", public_path);
+        WebsiteHandler::new_with_public_path(public_path)
+    }
+
+    pub fn new_with_public_path(public_path: String) -> Self {
         Self { public_path }
     }
 
