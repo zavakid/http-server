@@ -8,6 +8,7 @@ use website_handler::WebsiteHandler;
 
 mod http;
 mod server;
+mod handler;
 mod website_handler;
 
 fn main() {

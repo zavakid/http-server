@@ -3,16 +3,8 @@ use std::net::{TcpListener, TcpStream};
 use std::sync::Arc;
 use std::thread::spawn;
 
-use crate::http::{ParseError, Request, Response, StatusCode};
-
-pub trait Handler: Send + Sync {
-    fn handle_request(&self, request: &Request) -> Response;
-
-    fn handle_bad_request(&self, e: &ParseError) -> Response {
-        log::warn!("Failed to parse request: {}", e);
-        Response::new(StatusCode::BadRequest, None)
-    }
-}
+use crate::handler::Handler;
+use crate::http::Request;
 
 pub struct Server {
     addr: String,

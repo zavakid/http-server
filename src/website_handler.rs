@@ -1,7 +1,7 @@
 use crate::http::{Method, Request, Response, StatusCode};
 use std::fs;
 
-use super::server::Handler;
+use crate::handler::Handler;
 
 pub struct WebsiteHandler {
     public_path: String,
