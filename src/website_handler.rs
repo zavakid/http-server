@@ -1,4 +1,4 @@
-use crate::http::{Method, Request, Response, StatusCode};
+use crate::protocol::{Method, Request, Response, StatusCode};
 use std::fs;
 
 use crate::handler::Handler;

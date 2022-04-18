@@ -4,7 +4,7 @@ use std::sync::Arc;
 use std::thread::spawn;
 
 use crate::handler::Handler;
-use crate::http::Request;
+use crate::protocol::Request;
 
 pub struct Server {
     addr: String,

@@ -6,8 +6,8 @@ use std::fmt::{Debug, Display, Formatter};
 use std::str;
 use std::str::Utf8Error;
 
-use crate::http::method::MethodError;
-use crate::http::ParseError::{InvalidEncoding, InvalidMethod, InvalidProtocol, InvalidRequest};
+use crate::protocol::method::MethodError;
+use crate::protocol::ParseError::{InvalidEncoding, InvalidMethod, InvalidProtocol, InvalidRequest};
 
 use super::method::Method;
 

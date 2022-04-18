@@ -1,4 +1,4 @@
-use crate::http::{ParseError, Request, Response, StatusCode};
+use crate::protocol::{ParseError, Request, Response, StatusCode};
 
 pub trait Handler: Send + Sync {
     fn handle_request(&self, request: &Request) -> Response;
